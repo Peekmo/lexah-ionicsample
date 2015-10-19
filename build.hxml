@@ -1,0 +1,7 @@
+-cmd haxelib run lexah -s src -d dist
+--next
+-lib angular.haxe
+-lib ionic.haxe
+-cp dist
+-main App
+-js www/js/app.js

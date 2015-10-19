@@ -1,0 +1,108 @@
+## vim: set ft=rb:
+
+require "angular/*"
+require "angular/support/*"
+require "angular/service/*"
+require "ionic/platform/*"
+require "ionic/modal/*"
+require "angular/ui/router/state/StateProvider"
+require "angular/ui/router/UrlRouterProvider"
+
+class self
+
+![public, static]
+def main()
+    var mod = Angular
+        .module("starter", ["ionic"])
+        .controller("AppCtrl", self.app_ctrl)
+        .controller("PlaylistsCtrl", self.playlists_ctrl)
+        .controller("PlaylistCtrl", do() end)
+        .run(do(ionicPlatform: IonicPlatform)
+            ionicPlatform.ready(do()
+                puts("ok")
+            end)
+        end)
+        .config(do(stateProvider: StateProvider, urlRouterProvider: UrlRouterProvider)
+            stateProvider
+                .state("app", {
+                    "url": '/app',
+                    "abstract": true,
+                    "templateUrl": 'templates/menu.html',
+                    "controller": 'AppCtrl',
+                })
+                .state('app.search', {
+                    url: '/search',
+                    views: {
+                      'menuContent': {
+                        templateUrl: 'templates/search.html',
+                      }
+                    }
+                })
+                .state('app.browse', {
+                    url: '/browse',
+                    views: {
+                        'menuContent': {
+                            templateUrl: 'templates/browse.html',
+                        }
+                    }
+                })
+                .state('app.playlists', {
+                    url: '/playlists',
+                    views: {
+                        'menuContent': {
+                            templateUrl: 'templates/playlists.html',
+                            controller: 'PlaylistsCtrl',
+                        }
+                    }
+                })
+                .state('app.single', {
+                    url: '/playlists/:playlistId',
+                    views: {
+                        'menuContent': {
+                            templateUrl: 'templates/playlist.html',
+                            controller: 'PlaylistCtrl',
+                        }
+                    }
+                })
+
+            urlRouterProvider.otherwise('/app/playlists')
+        end)
+end
+
+![static]
+def playlists_ctrl(scope: Scope)
+    scope.set("playlists", [
+      { title: 'Reggae', id: 1 },
+      { title: 'Chill', id: 2 },
+      { title: 'Dubstep', id: 3 },
+      { title: 'Indie', id: 4 },
+      { title: 'Rap', id: 5 },
+      { title: 'Cowbell', id: 6 }
+    ])
+end
+
+![static]
+def app_ctrl(scope: Scope, ionicModal: IonicModal, t: Timeout)
+    scope.set("loginData", {})
+    ionicModal.fromTemplateUrl('templates/login.html', {
+      scope: scope,
+    }).then(do(modal)
+      scope.set("modal", modal);
+    end)
+
+    scope.set("closeLogin", do()
+        scope.get("modal").hide()
+    end)
+
+    scope.set("login", do()
+        scope.get("modal").show()
+    end)
+
+    scope.set("doLogin", do()
+        puts("do login")
+
+        t.timeout(do()
+            scope.get("closeLogin")()
+        end, 1000)
+    end)
+end
