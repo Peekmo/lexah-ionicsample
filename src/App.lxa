@@ -28,13 +28,13 @@ def main()
                     "url": '/app',
                     "abstract": true,
                     "templateUrl": 'templates/menu.html',
-                    "controller": 'AppCtrl',
+                    "controller": 'AppCtrl'
                 })
                 .state('app.search', {
                     url: '/search',
                     views: {
                       'menuContent': {
-                        templateUrl: 'templates/search.html',
+                        templateUrl: 'templates/search.html'
                       }
                     }
                 })
@@ -42,7 +42,7 @@ def main()
                     url: '/browse',
                     views: {
                         'menuContent': {
-                            templateUrl: 'templates/browse.html',
+                            templateUrl: 'templates/browse.html'
                         }
                     }
                 })
@@ -51,7 +51,7 @@ def main()
                     views: {
                         'menuContent': {
                             templateUrl: 'templates/playlists.html',
-                            controller: 'PlaylistsCtrl',
+                            controller: 'PlaylistsCtrl'
                         }
                     }
                 })
@@ -60,7 +60,7 @@ def main()
                     views: {
                         'menuContent': {
                             templateUrl: 'templates/playlist.html',
-                            controller: 'PlaylistCtrl',
+                            controller: 'PlaylistCtrl'
                         }
                     }
                 })
